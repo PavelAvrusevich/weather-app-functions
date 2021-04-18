@@ -6,15 +6,15 @@ const forecast = (latitude, longitude, callback) => {
         encodeURIComponent(latitude) +
         ',' +
         encodeURIComponent(longitude);
-    request({ url: url, json: true }, (err, response) => {
+    request({ url, json: true }, (err, { body }) => {
         if (err) {
-            callback('Enable to connet to weather service.', undefined);
-        } else if (response.body.err) {
-            callback('Enable to find location', undefined);
+            callback('Unable to connet to weather service.', undefined);
+        } else if (body.err) {
+            callback('Unable to find location', undefined);
         } else {
             callback(
                 undefined,
-                `${response.body.current.weather_descriptions}. It is currently ${response.body.current.temperature}. It feels like ${response.body.current.feelslike}`
+                `${body.current.weather_descriptions}. It is currently ${body.current.temperature}. It feels like ${body.current.feelslike}`
             );
         }
     });
